@@ -27,6 +27,14 @@ func getStudos(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, studos)
 }
 
+func Greet(c *gin.Context) {
+	c.String(http.StatusOK, "Hello Studopolis")
+}
+
+func RouteEcho(c *gin.Context) {
+	param := c.DefaultQuery("p", "0")
+	c.String(http.StatusOK, param)
+}
 func ConfigRuntime() {
 	nuCPU := runtime.NumCPU()
 	runtime.GOMAXPROCS(nuCPU)
@@ -35,7 +43,9 @@ func ConfigRuntime() {
 
 func StartGin() {
 	router := gin.Default()
-	router.GET("/stud", getStudos)
+	router.GET("/", Greet)
+	router.GET("/test", RouteEcho)
+	router.GET("/student", getStudos)
 
 	port := os.Getenv("PORT")
 	if port == "" {
